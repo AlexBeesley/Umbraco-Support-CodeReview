@@ -56,14 +56,14 @@ In production, the `EnableBackoffice` flag is set per App Service via Azure App 
 
 Querying the `umbracoServer` table reveals **85 server registrations**, with the following issues:
 
-1. **Only 1 server is active** (`IsActive=1`): `https://www-staging-backend.uat.tpr.gov.uk/` — and it holds `IsSchedulingPublisher=1`
+1. **Only 1 server is active** (`IsActive=1`): `https://www-staging-backend.localhost:44380/` — and it holds `IsSchedulingPublisher=1`
 2. **The actual backoffice servers are all inactive** (`IsActive=0, IsSchedulingPublisher=0`):
-   - `corporate-website-backoffice-backend.uat.tpr.gov.uk`
-   - `www-backoffice-backend.uat.tpr.gov.uk`
-   - `jobs-backoffice-backend.uat.tpr.gov.uk`
-   - `corporate-website-backoffice.uat.tpr.gov.uk`
-   - `www-backoffice.uat.tpr.gov.uk`
-   - `jobs-backoffice.uat.tpr.gov.uk`
+   - `corporate-website-backoffice-backend.localhost:44381`
+   - `www-backoffice-backend.localhost:44382`
+   - `jobs-backoffice-backend.localhost:44383`
+   - `corporate-website-backoffice.localhost:44384`
+   - `www-backoffice.localhost:44385`
+   - `jobs-backoffice.localhost:44386`
 3. **Stale entries accumulate** — the same URLs appear multiple times with different IDs (from App Service restarts/deployments), and old entries are never cleaned up
 4. **A staging backend slot holds the SchedulingPublisher role** instead of the intended backoffice server
 
@@ -71,19 +71,19 @@ Querying the `umbracoServer` table reveals **85 server registrations**, with the
 
 ```
 Id  Address                                                          IsActive  IsSchedulingPublisher
-85  https://www-staging-backend.uat.tpr.gov.uk/                      1         1
- 1  https://corporate-website-backoffice.uat.tpr.gov.uk/             0         0
-34  https://corporate-website.uat.tpr.gov.uk/                        0         0
-43  https://corporate-website-backoffice-backend.uat.tpr.gov.uk/     0         0
-55  https://www-backend.uat.tpr.gov.uk/                              0         0
-56  https://www-backoffice-backend.uat.tpr.gov.uk/                   0         0
-57  https://www.uat.tpr.gov.uk/                                      0         0
-58  https://www-backoffice.uat.tpr.gov.uk/                           0         0
-38  https://jobs-backend.uat.tpr.gov.uk/                             0         0
-32  https://jobs-backoffice-backend.uat.tpr.gov.uk/                  0         0
- 2  https://jobs.uat.tpr.gov.uk/                                     0         0
- 4  https://jobs-backoffice.uat.tpr.gov.uk/                          0         0
-84  https://app-uks-it-uat-corporate-website-bckoffc.azurewebsites.net/  0    0
+85  https://www-staging-backend.localhost:44380/                      1         1
+ 1  https://corporate-website-backoffice.localhost:44384/             0         0
+34  https://corporate-website.localhost:44390/                        0         0
+43  https://corporate-website-backoffice-backend.localhost:44381/     0         0
+55  https://www-backend.localhost:44391/                              0         0
+56  https://www-backoffice-backend.localhost:44382/                   0         0
+57  https://www.localhost:44392/                                      0         0
+58  https://www-backoffice.localhost:44385/                           0         0
+38  https://jobs-backend.localhost:44393/                             0         0
+32  https://jobs-backoffice-backend.localhost:44383/                  0         0
+ 2  https://jobs.localhost:44394/                                     0         0
+ 4  https://jobs-backoffice.localhost:44386/                          0         0
+84  https://corporate-website-backoffice.localhost:44395/             0         0
 ... (85 total rows — many duplicate URLs from restarts)
 ```
 
